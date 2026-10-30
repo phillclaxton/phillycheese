@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "phillycheese-dev",
+      "runtimeExecutable": "/Users/phillclaxton/.nvm/versions/node/v25.5.0/bin/node",
+      "runtimeArgs": ["./node_modules/astro/bin/astro.mjs", "dev", "--port", "4321"],
+      "port": 4321
+    }
+  ]
+}

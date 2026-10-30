@@ -1,0 +1,447 @@
+---
+const year = new Date().getFullYear();
+---
+
+<!doctype html>
+<html lang="en-NZ">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Philly Cheese &mdash; Welcome</title>
+    <meta
+      name="description"
+      content="Welcome to Philly Cheese. Pull up a stool, the neon's on and the booths are warm."
+    />
+    <meta name="theme-color" content="#1b1a2e" />
+    <link rel="canonical" href="https://www.phillycheese.nz/" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Philly Cheese" />
+    <meta property="og:url" content="https://www.phillycheese.nz/" />
+    <meta
+      property="og:description"
+      content="Welcome to Philly Cheese. Pull up a stool, the neon's on and the booths are warm."
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link
+      rel="icon"
+      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23e02438'/%3E%3Ctext x='16' y='24' font-size='22' font-family='Georgia,serif' font-weight='bold' text-anchor='middle' fill='%23ffe9c4'%3EP%3C/text%3E%3C/svg%3E"
+    />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Monoton&family=Bowlby+One+SC&family=Archivo:wght@500;700&display=swap"
+    />
+  </head>
+
+  <body>
+    <!-- Awning -->
+    <div class="awning" aria-hidden="true">
+      <div class="awning__stripes"></div>
+      <div class="awning__scallop"></div>
+    </div>
+
+    <main>
+      <div class="sunburst" aria-hidden="true"></div>
+
+      <section class="sign">
+        <p class="sign__kicker">
+          <span class="bulb"></span> Open 24 Hours <span class="bulb"></span>
+        </p>
+
+        <h1 class="neon">
+          <span class="neon__line">Philly</span>
+          <span class="neon__line neon__line--alt">Cheese</span>
+        </h1>
+
+        <div class="chrome-rule" aria-hidden="true"></div>
+
+        <p class="welcome">Welcome, friend.</p>
+        <p class="blurb">
+          You&rsquo;ve found the corner booth of the internet. The jukebox is
+          loaded, the coffee&rsquo;s bottomless, and the neon stays on all night.
+        </p>
+
+        <div class="badge">
+          <span class="badge__top">Est.</span>
+          <span class="badge__big">{year}</span>
+          <span class="badge__bot">Aotearoa</span>
+        </div>
+      </section>
+    </main>
+
+    <!-- Checkerboard floor -->
+    <div class="floor" aria-hidden="true"></div>
+
+    <footer>
+      <p class="footer__url">www.phillycheese.nz</p>
+      <p class="footer__fine">
+        Made in New Zealand &middot; No table service, no table either
+      </p>
+    </footer>
+
+    <style is:global>
+      :root {
+        --red: #e02438;
+        --red-deep: #a8122a;
+        --cream: #ffe9c4;
+        --mustard: #f5b528;
+        --teal: #19b4a6;
+        --ink: #1b1a2e;
+        --ink-soft: #2a2745;
+
+        color-scheme: dark;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        min-height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        background-color: var(--ink);
+        background-image:
+          radial-gradient(
+            ellipse 120% 80% at 50% 0%,
+            rgba(245, 181, 40, 0.18),
+            transparent 65%
+          ),
+          repeating-linear-gradient(
+            115deg,
+            rgba(255, 255, 255, 0.025) 0 2px,
+            transparent 2px 7px
+          );
+        color: var(--cream);
+        font-family: Archivo, 'Helvetica Neue', Arial, sans-serif;
+        overflow-x: hidden;
+      }
+
+      /* ---------- Awning ---------- */
+      .awning {
+        position: relative;
+        height: 54px;
+        filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.55));
+      }
+
+      .awning__stripes {
+        height: 38px;
+        background: repeating-linear-gradient(
+          90deg,
+          var(--red) 0 44px,
+          var(--cream) 44px 88px
+        );
+        border-bottom: 4px solid rgba(0, 0, 0, 0.25);
+      }
+
+      .awning__scallop {
+        height: 16px;
+        background: repeating-linear-gradient(
+          90deg,
+          var(--red) 0 44px,
+          var(--cream) 44px 88px
+        );
+        -webkit-mask-image: radial-gradient(
+          circle 11px at 22px 0,
+          #000 99%,
+          transparent 100%
+        );
+        mask-image: radial-gradient(
+          circle 11px at 22px 0,
+          #000 99%,
+          transparent 100%
+        );
+        -webkit-mask-size: 44px 16px;
+        mask-size: 44px 16px;
+        -webkit-mask-repeat: repeat-x;
+        mask-repeat: repeat-x;
+      }
+
+      /* ---------- Main ---------- */
+      main {
+        position: relative;
+        flex: 1;
+        display: grid;
+        place-items: center;
+        padding: clamp(2rem, 5vw, 3.5rem) 16px clamp(2.75rem, 6vw, 4.5rem);
+      }
+
+      .sunburst {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: repeating-conic-gradient(
+          from 0deg at 50% 38%,
+          rgba(255, 233, 196, 0.07) 0deg 7deg,
+          transparent 7deg 14deg
+        );
+        -webkit-mask-image: radial-gradient(
+          circle at 50% 38%,
+          #000 0%,
+          transparent 72%
+        );
+        mask-image: radial-gradient(
+          circle at 50% 38%,
+          #000 0%,
+          transparent 72%
+        );
+        animation: spin 110s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .sign {
+        position: relative;
+        width: min(760px, 100%);
+        text-align: center;
+        padding: clamp(1.75rem, 5vw, 3.25rem) clamp(1.25rem, 5vw, 3.5rem)
+          clamp(5.25rem, 9vw, 6rem);
+        border: 5px solid var(--cream);
+        border-radius: 28px;
+        background:
+          linear-gradient(
+            180deg,
+            rgba(42, 39, 69, 0.92),
+            rgba(27, 26, 46, 0.96)
+          );
+        box-shadow:
+          0 0 0 7px var(--red),
+          0 0 0 11px rgba(0, 0, 0, 0.35),
+          0 28px 60px rgba(0, 0, 0, 0.55);
+      }
+
+      .sign__kicker {
+        margin: 0 0 clamp(1rem, 3vw, 1.6rem);
+        font-size: clamp(0.7rem, 2.2vw, 0.85rem);
+        font-weight: 700;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        color: var(--mustard);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.9em;
+      }
+
+      .bulb {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--mustard);
+        box-shadow: 0 0 10px var(--mustard);
+        animation: blink 1.6s ease-in-out infinite alternate;
+      }
+
+      .bulb:last-child {
+        animation-delay: 0.8s;
+      }
+
+      @keyframes blink {
+        from {
+          opacity: 0.25;
+          box-shadow: 0 0 4px var(--mustard);
+        }
+        to {
+          opacity: 1;
+          box-shadow: 0 0 16px var(--mustard);
+        }
+      }
+
+      /* ---------- Neon headline ---------- */
+      .neon {
+        margin: 0;
+        font-family: Monoton, cursive;
+        font-weight: 400;
+        line-height: 0.98;
+        text-transform: uppercase;
+      }
+
+      .neon__line {
+        display: block;
+        font-size: clamp(2.6rem, 13vw, 6.4rem);
+        color: #fff6e6;
+        letter-spacing: 0.02em;
+        text-shadow:
+          0 0 4px #fff,
+          0 0 12px var(--red),
+          0 0 28px var(--red),
+          0 0 56px var(--red-deep);
+        animation: flicker 7s linear infinite;
+      }
+
+      .neon__line--alt {
+        color: #eafffb;
+        text-shadow:
+          0 0 4px #fff,
+          0 0 12px var(--teal),
+          0 0 28px var(--teal),
+          0 0 56px #0b6f66;
+        animation-delay: 1.3s;
+      }
+
+      @keyframes flicker {
+        0%,
+        92%,
+        100% {
+          opacity: 1;
+        }
+        93% {
+          opacity: 0.45;
+        }
+        94% {
+          opacity: 1;
+        }
+        96% {
+          opacity: 0.6;
+        }
+        97% {
+          opacity: 1;
+        }
+      }
+
+      .chrome-rule {
+        height: 9px;
+        margin: clamp(1.4rem, 4vw, 2.1rem) auto clamp(1.4rem, 4vw, 2rem);
+        max-width: 420px;
+        border-radius: 99px;
+        background: linear-gradient(
+          180deg,
+          #ffffff,
+          #c9cfd8 38%,
+          #6f7884 52%,
+          #d9dee5 70%,
+          #8d949f
+        );
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+      }
+
+      /* ---------- Copy ---------- */
+      .welcome {
+        margin: 0 0 0.7rem;
+        font-family: 'Bowlby One SC', Impact, sans-serif;
+        font-size: clamp(1.4rem, 5.5vw, 2.4rem);
+        color: var(--mustard);
+        text-transform: uppercase;
+        letter-spacing: 0.01em;
+        text-shadow: 3px 3px 0 var(--red-deep);
+      }
+
+      .blurb {
+        margin: 0 auto;
+        max-width: 46ch;
+        font-size: clamp(0.98rem, 2.6vw, 1.12rem);
+        line-height: 1.65;
+        color: rgba(255, 233, 196, 0.86);
+      }
+
+      /* ---------- Starburst badge ---------- */
+      .badge {
+        position: absolute;
+        left: 50%;
+        bottom: clamp(-46px, -7vw, -34px);
+        transform: translateX(-50%) rotate(-7deg);
+        width: clamp(108px, 26vw, 134px);
+        aspect-ratio: 1;
+        display: grid;
+        place-content: center;
+        gap: 1px;
+        background: var(--red);
+        color: var(--cream);
+        clip-path: polygon(
+          50% 0%,
+          61% 20%,
+          83% 10%,
+          80% 33%,
+          100% 50%,
+          80% 67%,
+          83% 90%,
+          61% 80%,
+          50% 100%,
+          39% 80%,
+          17% 90%,
+          20% 67%,
+          0% 50%,
+          20% 33%,
+          17% 10%,
+          39% 20%
+        );
+        box-shadow: 0 10px 26px rgba(0, 0, 0, 0.5);
+        text-transform: uppercase;
+        line-height: 1;
+      }
+
+      .badge__top,
+      .badge__bot {
+        font-size: clamp(0.5rem, 1.6vw, 0.6rem);
+        font-weight: 700;
+        letter-spacing: 0.18em;
+      }
+
+      .badge__big {
+        font-family: 'Bowlby One SC', Impact, sans-serif;
+        font-size: clamp(1.3rem, 4.2vw, 1.65rem);
+        color: var(--mustard);
+        margin: 2px 0;
+      }
+
+      /* ---------- Floor + footer ---------- */
+      .floor {
+        height: 60px;
+        background:
+          repeating-conic-gradient(
+            var(--cream) 0% 25%,
+            var(--ink-soft) 0% 50%
+          )
+          0 0 / 60px 60px;
+        border-top: 5px solid var(--red);
+        box-shadow: inset 0 14px 22px rgba(0, 0, 0, 0.45);
+      }
+
+      footer {
+        padding: clamp(1.5rem, 4vw, 2.25rem) 16px clamp(2rem, 5vw, 2.75rem);
+        text-align: center;
+        background: var(--red-deep);
+      }
+
+      .footer__url {
+        margin: 0 0 0.45rem;
+        font-family: 'Bowlby One SC', Impact, sans-serif;
+        font-size: clamp(1rem, 4vw, 1.5rem);
+        letter-spacing: 0.04em;
+        color: var(--cream);
+        text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.35);
+        word-break: break-word;
+      }
+
+      .footer__fine {
+        margin: 0;
+        font-size: 0.78rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: rgba(255, 233, 196, 0.6);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .sunburst,
+        .bulb,
+        .neon__line {
+          animation: none !important;
+        }
+      }
+    </style>
+  </body>
+</html>
