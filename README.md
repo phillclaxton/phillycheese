@@ -60,6 +60,12 @@ record pointing at the placeholder `192.0.2.0`.
 ## Notes
 
 - The whole page lives in `src/pages/index.astro`, styles included.
+- The jukebox is `src/components/Jukebox.astro` plus `src/scripts/jukebox-audio.js`.
+  All six tunes are synthesised with WebAudio — no audio files are shipped. Each
+  genre has its own arranger function that schedules a bar in that style.
+- Audio starts only on a tap. On iOS the unlock path asks for the `playback`
+  audio session and keeps a silent looping element going, so the hardware ringer
+  switch does not mute the page.
 - `public/_headers` sets security headers and immutable caching for hashed assets.
 - Any unknown path serves `index.html` (`not_found_handling`), since there is
   only one page.
