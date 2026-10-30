@@ -1,0 +1,692 @@
+---
+import { TRACKS } from '../scripts/jukebox-audio.js';
+
+const slots = TRACKS.map((t, i) => ({ ...t, x: 115 + i * 34 }));
+---
+
+<section class="jb" aria-labelledby="jb-heading">
+  <h2 id="jb-heading" class="jb__heading">Pick a side</h2>
+
+  <svg
+    class="jb__cabinet"
+    viewBox="0 0 400 600"
+    role="img"
+    aria-label="An illustrated chrome jukebox with a record magazine and turntable behind glass."
+  >
+    <defs>
+      <linearGradient id="jbWood" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#5d1623" />
+        <stop offset="0.5" stop-color="#3c0d17" />
+        <stop offset="1" stop-color="#280810" />
+      </linearGradient>
+
+      <linearGradient id="jbChrome" x1="0" y1="0" x2="1" y2="0">
+        <stop offset="0" stop-color="#6f7884" />
+        <stop offset="0.25" stop-color="#ffffff" />
+        <stop offset="0.45" stop-color="#c9cfd8" />
+        <stop offset="0.6" stop-color="#6f7884" />
+        <stop offset="0.8" stop-color="#e7ebf0" />
+        <stop offset="1" stop-color="#8d949f" />
+      </linearGradient>
+
+      <linearGradient id="jbGlass" x1="0" y1="0" x2="0.4" y2="1">
+        <stop offset="0" stop-color="#2a2745" />
+        <stop offset="0.55" stop-color="#15142a" />
+        <stop offset="1" stop-color="#0d0c1c" />
+      </linearGradient>
+
+      <linearGradient id="jbSheen" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#ffffff" stop-opacity="0.16" />
+        <stop offset="0.45" stop-color="#ffffff" stop-opacity="0.02" />
+        <stop offset="1" stop-color="#ffffff" stop-opacity="0" />
+      </linearGradient>
+
+      <filter id="jbGlow" x="-60%" y="-60%" width="220%" height="220%">
+        <feGaussianBlur stdDeviation="5" result="b" />
+        <feMerge>
+          <feMergeNode in="b" />
+          <feMergeNode in="b" />
+          <feMergeNode in="SourceGraphic" />
+        </feMerge>
+      </filter>
+
+      <clipPath id="jbWindowClip">
+        <rect x="72" y="200" width="256" height="200" rx="14" />
+      </clipPath>
+
+      <clipPath id="jbTubeL"><rect x="28" y="262" width="16" height="250" rx="8" /></clipPath>
+      <clipPath id="jbTubeR"><rect x="356" y="262" width="16" height="250" rx="8" /></clipPath>
+    </defs>
+
+    <!-- Cabinet -->
+    <path
+      d="M 14 586 L 14 250 A 186 186 0 0 1 386 250 L 386 586 Z"
+      fill="url(#jbWood)"
+      stroke="#140409"
+      stroke-width="3"
+    />
+
+    <!-- Neon arches -->
+    <g filter="url(#jbGlow)" fill="none" stroke-linecap="round">
+      <path class="jb__neon jb__neon--red" d="M 32 252 A 168 168 0 0 1 368 252"
+        stroke="#ff3b52" stroke-width="7" />
+      <path class="jb__neon jb__neon--teal" d="M 52 252 A 148 148 0 0 1 348 252"
+        stroke="#19b4a6" stroke-width="5" />
+    </g>
+
+    <text x="200" y="166" class="jb__marquee">PHILLY CHEESE</text>
+    <text x="200" y="186" class="jb__marquee jb__marquee--sub">SELECT-O-MATIC</text>
+
+    <!-- Bubble tubes -->
+    <g>
+      <rect x="28" y="262" width="16" height="250" rx="8" fill="#1c1a30" stroke="url(#jbChrome)" stroke-width="2" />
+      <rect x="356" y="262" width="16" height="250" rx="8" fill="#1c1a30" stroke="url(#jbChrome)" stroke-width="2" />
+      <g clip-path="url(#jbTubeL)">
+        <circle class="jb__bubble" cx="36" cy="500" r="4" style="--d:0s" />
+        <circle class="jb__bubble" cx="36" cy="500" r="3" style="--d:1.7s" />
+        <circle class="jb__bubble" cx="36" cy="500" r="5" style="--d:3.2s" />
+      </g>
+      <g clip-path="url(#jbTubeR)">
+        <circle class="jb__bubble" cx="364" cy="500" r="3" style="--d:0.8s" />
+        <circle class="jb__bubble" cx="364" cy="500" r="5" style="--d:2.4s" />
+        <circle class="jb__bubble" cx="364" cy="500" r="4" style="--d:4.1s" />
+      </g>
+    </g>
+
+    <!-- Glass window -->
+    <rect x="72" y="200" width="256" height="200" rx="14" fill="url(#jbGlass)" />
+
+    <g clip-path="url(#jbWindowClip)">
+      <!-- Back wall -->
+      <rect x="72" y="200" width="256" height="200" fill="none" />
+      <ellipse cx="200" cy="250" rx="130" ry="70" fill="#211f3d" opacity="0.65" />
+
+      <!-- Turntable platter -->
+      <circle cx="200" cy="268" r="58" fill="#0a0914" opacity="0.9" />
+      <circle cx="200" cy="268" r="58" fill="none" stroke="url(#jbChrome)" stroke-width="2" opacity="0.5" />
+      <circle cx="200" cy="268" r="3" fill="url(#jbChrome)" />
+
+      <!-- Magazine rail -->
+      <rect x="96" y="336" width="208" height="4" rx="2" fill="url(#jbChrome)" opacity="0.8" />
+
+      <!-- Records standing in the magazine, seen edge-on -->
+      {
+        slots.map((s, i) => (
+          <g class="jb__slot" data-slot={i}>
+            <rect x={s.x - 2.5} y="348" width="5" height="44" rx="2" fill="#17162a" />
+            <rect x={s.x - 2.5} y="366" width="5" height="9" fill={s.label} opacity="0.85" />
+          </g>
+        ))
+      }
+
+      <!-- The record in transit / on the platter -->
+      <g class="jb__disc" id="jb-disc">
+        <g class="jb__disc-spin" id="jb-disc-spin">
+          <circle r="54" fill="#141225" />
+          <circle r="54" fill="none" stroke="#2c2a45" stroke-width="1" />
+          <circle r="46" fill="none" stroke="#211f38" stroke-width="0.8" />
+          <circle r="38" fill="none" stroke="#211f38" stroke-width="0.8" />
+          <circle r="30" fill="none" stroke="#211f38" stroke-width="0.8" />
+          <circle r="24" fill="none" stroke="#211f38" stroke-width="0.8" />
+          <circle class="jb__disc-label" id="jb-disc-label" r="19" fill="#e02438" />
+          <circle r="19" fill="none" stroke="#0a0914" stroke-width="0.8" />
+          <circle r="2.4" fill="#0a0914" />
+          <!-- A highlight that sweeps as it turns -->
+          <path d="M -54 0 A 54 54 0 0 1 0 -54 L 0 -46 A 46 46 0 0 0 -46 0 Z"
+            fill="#ffffff" opacity="0.07" />
+        </g>
+      </g>
+
+      <!-- Tonearm -->
+      <g class="jb__arm" id="jb-arm">
+        <circle cx="300" cy="222" r="9" fill="url(#jbChrome)" />
+        <circle cx="300" cy="222" r="3.5" fill="#3a3550" />
+        <line x1="300" y1="222" x2="267" y2="304" stroke="url(#jbChrome)" stroke-width="4.5" stroke-linecap="round" />
+        <rect x="259" y="297" width="15" height="11" rx="2.5" transform="rotate(22 266 302)" fill="#d9dee5" stroke="#5c636e" stroke-width="0.8" />
+      </g>
+
+      <!-- Gripper that fetches the record -->
+      <g class="jb__grip" id="jb-grip">
+        <rect x="-13" y="-9" width="26" height="12" rx="3" fill="url(#jbChrome)" />
+        <path class="jb__claw" id="jb-claw-l" d="M -9 3 L -9 15" stroke="url(#jbChrome)" stroke-width="3.5" stroke-linecap="round" />
+        <path class="jb__claw" id="jb-claw-r" d="M 9 3 L 9 15" stroke="url(#jbChrome)" stroke-width="3.5" stroke-linecap="round" />
+      </g>
+
+      <!-- Glass reflection, drawn last so it sits over everything -->
+      <path d="M 72 200 L 200 200 L 96 400 L 72 400 Z" fill="url(#jbSheen)" pointer-events="none" />
+    </g>
+
+    <rect x="72" y="200" width="256" height="200" rx="14" fill="none"
+      stroke="url(#jbChrome)" stroke-width="5" />
+
+    <!-- Speaker grille -->
+    <g>
+      <rect x="64" y="424" width="272" height="96" rx="12" fill="#1a0710" stroke="url(#jbChrome)" stroke-width="3" />
+      {
+        Array.from({ length: 7 }).map((_, i) => (
+          <rect x="78" y={436 + i * 12} width="244" height="5" rx="2.5" fill="url(#jbChrome)" opacity="0.55" />
+        ))
+      }
+    </g>
+
+    <rect x="64" y="536" width="272" height="10" rx="5" fill="url(#jbChrome)" opacity="0.8" />
+  </svg>
+
+  <!-- Display -->
+  <p class="jb__display" id="jb-display" role="status" aria-live="polite">
+    <span class="jb__display-id" id="jb-display-id">--</span>
+    <span class="jb__display-text">
+      <span class="jb__display-title" id="jb-display-title">Make your selection</span>
+      <span class="jb__display-artist" id="jb-display-artist"></span>
+    </span>
+  </p>
+
+  <!-- Selection buttons -->
+  <div class="jb__keys" id="jb-keys">
+    {
+      TRACKS.map((t) => (
+        <button class="jb__key" type="button" data-id={t.id} data-title={t.title} data-artist={t.artist}>
+          <span class="jb__key-id">{t.id}</span>
+          <span class="jb__key-title">{t.title}</span>
+          <span class="jb__key-artist">{t.artist}</span>
+        </button>
+      ))
+    }
+  </div>
+
+  <div class="jb__controls">
+    <button class="jb__ctl" type="button" id="jb-stop" disabled>Stop</button>
+    <button class="jb__ctl" type="button" id="jb-mute" aria-pressed="false">Sound on</button>
+  </div>
+
+  <p class="jb__note">
+    Every tune is synthesised in your browser &mdash; no files, no downloads.
+  </p>
+</section>
+
+<style>
+  .jb {
+    width: min(420px, 100%);
+    margin: clamp(2.5rem, 8vw, 4rem) auto 0;
+    text-align: center;
+  }
+
+  .jb__heading {
+    margin: 0 0 1rem;
+    font-family: 'Bowlby One SC', Impact, sans-serif;
+    font-size: clamp(1.1rem, 4vw, 1.5rem);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--mustard);
+    text-shadow: 2px 2px 0 var(--red-deep);
+  }
+
+  .jb__cabinet {
+    display: block;
+    width: 100%;
+    height: auto;
+    filter: drop-shadow(0 24px 46px rgba(0, 0, 0, 0.6));
+  }
+
+  /* ---- Cabinet details ---- */
+  .jb__neon {
+    animation: jbHum 5s ease-in-out infinite;
+  }
+
+  .jb__neon--teal {
+    animation-delay: -2.1s;
+  }
+
+  @keyframes jbHum {
+    0%, 100% { opacity: 1; }
+    48% { opacity: 0.82; }
+    50% { opacity: 0.55; }
+    52% { opacity: 0.9; }
+  }
+
+  .jb__marquee {
+    text-anchor: middle;
+    font-family: 'Bowlby One SC', Impact, sans-serif;
+    font-size: 23px;
+    letter-spacing: 0.04em;
+    fill: var(--cream);
+  }
+
+  .jb__marquee--sub {
+    font-family: Archivo, sans-serif;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.42em;
+    fill: var(--mustard);
+  }
+
+  .jb__bubble {
+    fill: rgba(190, 240, 255, 0.5);
+    animation: jbRise 5.5s linear infinite;
+    animation-delay: var(--d);
+  }
+
+  @keyframes jbRise {
+    from { transform: translateY(0); opacity: 0; }
+    12% { opacity: 1; }
+    88% { opacity: 1; }
+    to { transform: translateY(-238px); opacity: 0; }
+  }
+
+  /* ---- Mechanism ---- */
+  .jb__disc {
+    /* Parked inside the magazine, edge-on and invisible. */
+    transform: translate(115px, 370px) scaleX(0.06);
+    opacity: 0;
+  }
+
+  .jb__disc-spin {
+    transform-box: view-box;
+    transform-origin: 0 0;
+  }
+
+  .jb__disc-spin.is-spinning {
+    animation: jbSpin 1.35s linear infinite;
+  }
+
+  @keyframes jbSpin {
+    to { transform: rotate(360deg); }
+  }
+
+  .jb__arm {
+    transform-box: view-box;
+    transform-origin: 300px 222px;
+    transform: rotate(0deg);
+  }
+
+  .jb__grip {
+    transform: translate(200px, 326px);
+  }
+
+  .jb__claw {
+    transform-box: view-box;
+    transform-origin: 0 0;
+    transition: transform 180ms ease;
+  }
+
+  /* ---- Display ---- */
+  .jb__display {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin: 1rem 0 1.1rem;
+    padding: 0.6rem 0.9rem;
+    border: 3px solid var(--cream);
+    border-radius: 10px;
+    background: #0d0c1c;
+    text-align: left;
+    min-height: 3rem;
+  }
+
+  .jb__display-id {
+    flex: none;
+    width: 2.6rem;
+    font-family: 'Bowlby One SC', Impact, sans-serif;
+    font-size: 1.1rem;
+    color: var(--mustard);
+  }
+
+  .jb__display-text {
+    font-size: 0.9rem;
+    line-height: 1.35;
+    color: var(--cream);
+  }
+
+  .jb__display-title {
+    display: block;
+    font-weight: 700;
+  }
+
+  .jb__display-artist:not(:empty) {
+    display: block;
+    opacity: 0.7;
+    font-size: 0.82rem;
+  }
+
+  /* ---- Keys ---- */
+  .jb__keys {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+
+  .jb__key {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.15rem;
+    min-height: 72px;
+    padding: 0.55rem 0.35rem;
+    border: 3px solid #0a0914;
+    border-radius: 9px;
+    background: linear-gradient(180deg, #fff8ec, #e3d6bd);
+    color: #2a0a12;
+    font-family: Archivo, sans-serif;
+    cursor: pointer;
+    touch-action: manipulation;
+    box-shadow: 0 4px 0 #8d7f66;
+    transition: transform 90ms ease, box-shadow 90ms ease;
+  }
+
+  .jb__key:active,
+  .jb__key.is-pressed {
+    transform: translateY(4px);
+    box-shadow: 0 0 0 #8d7f66;
+  }
+
+  .jb__key[disabled] {
+    opacity: 0.45;
+    cursor: default;
+  }
+
+  .jb__key.is-playing {
+    background: linear-gradient(180deg, var(--mustard), #d9960f);
+  }
+
+  .jb__key-id {
+    font-family: 'Bowlby One SC', Impact, sans-serif;
+    font-size: 0.95rem;
+    color: var(--red-deep);
+  }
+
+  .jb__key-title {
+    font-size: 0.64rem;
+    font-weight: 700;
+    line-height: 1.15;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+  }
+
+  .jb__key-artist {
+    font-size: 0.56rem;
+    letter-spacing: 0.04em;
+    opacity: 0.65;
+    text-transform: uppercase;
+  }
+
+  .jb__key:focus-visible,
+  .jb__ctl:focus-visible {
+    outline: 3px solid var(--teal);
+    outline-offset: 3px;
+  }
+
+  /* ---- Controls ---- */
+  .jb__controls {
+    display: flex;
+    justify-content: center;
+    gap: 0.6rem;
+    margin-top: 0.75rem;
+  }
+
+  .jb__ctl {
+    min-height: 44px;
+    padding: 0 1.2rem;
+    border: 3px solid var(--cream);
+    border-radius: 99px;
+    background: transparent;
+    color: var(--cream);
+    font-family: Archivo, sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+
+  .jb__ctl[disabled] {
+    opacity: 0.35;
+    cursor: default;
+  }
+
+  .jb__note {
+    margin: 1rem 0 0;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgba(255, 233, 196, 0.45);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .jb__neon,
+    .jb__bubble,
+    .jb__disc-spin.is-spinning {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  import { Jukebox, TRACKS } from '../scripts/jukebox-audio.js';
+
+  const root = document.querySelector('.jb');
+  if (root) {
+    const disc = document.getElementById('jb-disc');
+    const discSpin = document.getElementById('jb-disc-spin');
+    const discLabel = document.getElementById('jb-disc-label');
+    const arm = document.getElementById('jb-arm');
+    const grip = document.getElementById('jb-grip');
+    const clawL = document.getElementById('jb-claw-l');
+    const clawR = document.getElementById('jb-claw-r');
+    const keys = [...document.querySelectorAll('.jb__key')];
+    const slotEls = [...document.querySelectorAll('.jb__slot')];
+    const stopBtn = document.getElementById('jb-stop');
+    const muteBtn = document.getElementById('jb-mute');
+    const displayId = document.getElementById('jb-display-id');
+    const displayTitle = document.getElementById('jb-display-title');
+    const displayArtist = document.getElementById('jb-display-artist');
+
+    const PLAY_X = 200;
+    const PLAY_Y = 268;
+    const REST_GRIP = 'translate(200px, 326px)';
+    const slotX = (i) => 115 + i * 34;
+    const atSlot = (i) => `translate(${slotX(i)}px, 370px) scaleX(0.06)`;
+    const atPlay = `translate(${PLAY_X}px, ${PLAY_Y}px) scaleX(1)`;
+
+    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const box = new Jukebox();
+
+    let state = 'idle';
+    let current = -1;
+    let token = 0;
+
+    const ms = (n) => (reduced.matches ? 1 : n);
+    const wait = (n) => new Promise((r) => setTimeout(r, ms(n)));
+
+    /**
+     * Run a transform animation, then write the final value to inline style and
+     * drop the animation. Without the cancel, every fill:forwards animation
+     * stays attached to the element and overrides inline styles forever.
+     */
+    async function move(el, frames, duration, final, easing) {
+      const anim = el.animate(frames, {
+        duration: ms(duration),
+        easing: easing || 'cubic-bezier(.4,.05,.25,1)',
+        fill: 'forwards',
+      });
+      try {
+        await anim.finished;
+      } catch {
+        return false;
+      }
+      el.style.transform = final;
+      anim.cancel();
+      return true;
+    }
+
+    function setClaw(open) {
+      clawL.style.transform = open ? 'translateX(-4px)' : 'translateX(0)';
+      clawR.style.transform = open ? 'translateX(4px)' : 'translateX(0)';
+    }
+
+    function setDisplay(id, title, artist) {
+      displayId.textContent = id;
+      displayTitle.textContent = title || artist || '';
+      displayArtist.textContent = title ? artist : '';
+    }
+
+    function setKeysDisabled(disabled) {
+      keys.forEach((k) => {
+        k.disabled = disabled;
+      });
+    }
+
+    function markPlaying(index) {
+      keys.forEach((k, i) => k.classList.toggle('is-playing', i === index));
+    }
+
+    function reset() {
+      current = -1;
+      state = 'idle';
+      markPlaying(-1);
+      stopBtn.disabled = true;
+      setKeysDisabled(false);
+      setDisplay('--', '', 'Make your selection');
+    }
+
+    /** Fetch the chosen record from the magazine and drop the needle on it. */
+    async function loadRecord(index) {
+      const mine = ++token;
+      const track = TRACKS[index];
+      const x = slotX(index);
+      const stale = () => mine !== token;
+
+      state = 'loading';
+      setKeysDisabled(true);
+      stopBtn.disabled = false;
+      markPlaying(index);
+      setDisplay(track.id, '', 'Selecting\u2026');
+
+      // 1. Gripper tracks across to the chosen slot.
+      const from = grip.style.transform || REST_GRIP;
+      await move(grip, [{ transform: from }, { transform: `translate(${x}px, 326px)` }], 620,
+        `translate(${x}px, 326px)`);
+      if (stale()) return;
+
+      // 2. Down onto the record, and clamp.
+      setClaw(true);
+      await move(grip,
+        [{ transform: `translate(${x}px, 326px)` }, { transform: `translate(${x}px, 344px)` }],
+        260, `translate(${x}px, 344px)`);
+      if (stale()) return;
+      setClaw(false);
+      await wait(200);
+      if (stale()) return;
+
+      // 3. The record leaves the magazine, turning to face us as it rises.
+      slotEls[index].style.opacity = '0';
+      discLabel.setAttribute('fill', track.label);
+      disc.style.transform = atSlot(index);
+      disc.style.opacity = '1';
+
+      await Promise.all([
+        move(disc, [
+          { transform: atSlot(index) },
+          { transform: `translate(${(x + PLAY_X) / 2}px, ${PLAY_Y + 44}px) scaleX(0.55)`, offset: 0.55 },
+          { transform: atPlay },
+        ], 900, atPlay),
+        move(grip, [
+          { transform: `translate(${x}px, 344px)` },
+          { transform: `translate(${PLAY_X}px, ${PLAY_Y + 48}px)`, offset: 0.6 },
+          { transform: REST_GRIP },
+        ], 900, REST_GRIP),
+      ]);
+      if (stale()) return;
+
+      // 4. Platter up to speed, then the arm swings across.
+      discSpin.classList.add('is-spinning');
+      await wait(280);
+      if (stale()) return;
+
+      await move(arm, [{ transform: 'rotate(0deg)' }, { transform: 'rotate(20deg)' }], 520,
+        'rotate(20deg)', 'cubic-bezier(.3,.8,.4,1)');
+      if (stale()) return;
+
+      // 5. Needle down.
+      state = 'playing';
+      setKeysDisabled(false);
+      setDisplay(track.id, track.title, track.artist);
+      box.play(track);
+    }
+
+    /** Lift the needle and file the record back where it came from. */
+    async function unload() {
+      const mine = ++token;
+      const index = current;
+      const stale = () => mine !== token;
+
+      box.stop();
+      discSpin.classList.remove('is-spinning');
+
+      await move(arm, [{ transform: 'rotate(20deg)' }, { transform: 'rotate(0deg)' }], 420,
+        'rotate(0deg)');
+      if (stale()) return;
+
+      if (index >= 0) {
+        await move(disc, [{ transform: atPlay }, { transform: atSlot(index) }], 640, atSlot(index));
+        if (stale()) return;
+        slotEls[index].style.opacity = '1';
+      }
+
+      disc.style.opacity = '0';
+      await move(grip, [{ transform: grip.style.transform || REST_GRIP }, { transform: REST_GRIP }],
+        300, REST_GRIP);
+    }
+
+    async function select(index) {
+      if (state === 'loading') return;
+
+      const ok = await box.ensureContext();
+      if (!ok) {
+        setDisplay('!!', '', 'Your browser blocked audio');
+        return;
+      }
+
+      const wasPlaying = state !== 'idle';
+      const samePick = index === current;
+
+      if (wasPlaying) {
+        stopBtn.disabled = true;
+        await unload();
+      }
+
+      // Pressing the selection that's already on stops it instead of reloading.
+      if (wasPlaying && samePick) {
+        reset();
+        return;
+      }
+
+      current = index;
+      await loadRecord(index);
+    }
+
+    keys.forEach((key, i) => {
+      key.addEventListener('click', () => select(i));
+    });
+
+    stopBtn.addEventListener('click', async () => {
+      if (state === 'idle') return;
+      stopBtn.disabled = true;
+      await unload();
+      reset();
+    });
+
+    muteBtn.addEventListener('click', () => {
+      const next = muteBtn.getAttribute('aria-pressed') !== 'true';
+      muteBtn.setAttribute('aria-pressed', String(next));
+      muteBtn.textContent = next ? 'Sound off' : 'Sound on';
+      box.setMuted(next);
+    });
+
+    // Don't leave the band playing to an empty room.
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) box.setMuted(true);
+      else if (muteBtn.getAttribute('aria-pressed') !== 'true') box.setMuted(false);
+    });
+  }
+</script>

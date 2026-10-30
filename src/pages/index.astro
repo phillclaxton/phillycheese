@@ -1,4 +1,6 @@
 ---
+import Jukebox from "../components/Jukebox.astro";
+
 const year = new Date().getFullYear();
 ---
 
@@ -71,6 +73,8 @@ const year = new Date().getFullYear();
           <span class="badge__bot">Aotearoa</span>
         </div>
       </section>
+
+      <Jukebox />
     </main>
 
     <!-- Checkerboard floor -->
@@ -170,6 +174,8 @@ const year = new Date().getFullYear();
       /* ---------- Main ---------- */
       main {
         position: relative;
+        /* The rotating sunburst is wider than the viewport at some angles. */
+        overflow: hidden;
         flex: 1;
         display: grid;
         place-items: center;
