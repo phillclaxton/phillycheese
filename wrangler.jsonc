@@ -1,9 +1,12 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
+  // This name must match the Worker's name in the Cloudflare dashboard,
+  // or the build fails.
   "name": "phillycheese",
   "compatibility_date": "2026-10-30",
   "assets": {
     "directory": "./dist",
-    "not_found_handling": "404-page"
+    // One-page site: serve index.html for any path.
+    "not_found_handling": "single-page-application"
   }
 }

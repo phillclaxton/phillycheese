@@ -4,9 +4,10 @@ A single-page Astro site for **www.phillycheese.nz** — bold retro American din
 
 ## Local development
 
-Requires Node 20+ (or 18.20.8+).
+Requires Node 22.23.4 or newer (`.nvmrc` pins 24).
 
 ```
+nvm use
 npm install
 npm run dev
 ```
@@ -17,30 +18,48 @@ npm run dev
 npm run build
 ```
 
-Static output lands in `dist/`.
+Static output lands in `dist/`. Nothing runs server-side.
 
 ## Deploying to Cloudflare
 
-### Option A — Git-connected (recommended)
+The site deploys as a Worker serving static assets. `wrangler.jsonc` points at
+`./dist`, so the output directory is set there rather than in the dashboard.
 
-Push this repo to GitHub, then in the Cloudflare dashboard create a **Workers & Pages**
-project connected to the repo with:
+### Option A — connect the GitHub repo (recommended)
 
-- **Build command:** `npm run build`
-- **Output directory:** `dist`
+1. Cloudflare dashboard → **Workers & Pages** → **Create application**
+2. Choose **GitHub**, authenticate, and pick `phillclaxton/phillycheese`
+3. Set **Build command** to `npm run build`. Leave **Deploy command** at its
+   default `npx wrangler deploy` — it reads `wrangler.jsonc` for the rest.
+4. **Save and Deploy**
 
-Then add `phillycheese.nz` and `www.phillycheese.nz` as custom domains on the project.
+The Worker's name in the dashboard must be `phillycheese`, matching `name` in
+`wrangler.jsonc`, or builds fail. Pushes to `main` redeploy automatically.
 
-### Option B — Direct upload with Wrangler
+Build settings can be changed later under the Worker's **Settings → Build**.
+
+### Option B — direct upload
 
 ```
+npm run build
 npx wrangler deploy
 ```
 
-`wrangler.jsonc` serves `./dist` as static assets. Custom domains are attached in the
-dashboard under the Worker's **Settings → Domains & Routes**.
+### Custom domains
+
+Under the Worker's **Settings → Domains & Routes → Add → Custom Domain**, add
+`phillycheese.nz` and `www.phillycheese.nz` as two separate entries. Cloudflare
+creates the DNS records and certificates. The zone must already be active in the
+account, and the hostname must not already have a CNAME record.
+
+Custom Domains match one hostname exactly with no wildcards, so a Worker on the
+apex does not receive `www` traffic. To serve one and redirect the other, add a
+Cloudflare **Redirect Rule** and give the redirected-from hostname a proxied `A`
+record pointing at the placeholder `192.0.2.0`.
 
 ## Notes
 
-- `public/_headers` sets security headers and long-lived caching for hashed assets.
 - The whole page lives in `src/pages/index.astro`, styles included.
+- `public/_headers` sets security headers and immutable caching for hashed assets.
+- Any unknown path serves `index.html` (`not_found_handling`), since there is
+  only one page.
