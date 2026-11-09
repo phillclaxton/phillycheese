@@ -60,12 +60,15 @@ record pointing at the placeholder `192.0.2.0`.
 ## Notes
 
 - The whole page lives in `src/pages/index.astro`, styles included.
-- The jukebox is `src/components/Jukebox.astro` plus `src/scripts/jukebox-audio.js`.
-  All six tunes are synthesised with WebAudio — no audio files are shipped. Each
-  genre has its own arranger function that schedules a bar in that style.
-- Audio starts only on a tap. On iOS the unlock path asks for the `playback`
-  audio session and keeps a silent looping element going, so the hardware ringer
-  switch does not mute the page.
+- Music is a Spotify playlist embed in `src/components/Stereo.astro`. The
+  playlist id is the only thing to change if the selections move.
+- The iframe is left exactly as Spotify's embed generator emits it, including
+  the inline `border-radius` and the `allow` list. Spotify's docs warn that
+  editing that markup can drop playback to 30-second previews, so all styling
+  lives on the wrapper. Full tracks need the visitor to be signed in to
+  Spotify; everyone else hears previews, which the caption says plainly.
+- `X-Frame-Options: DENY` in `public/_headers` only stops other sites framing
+  this one. It does not affect embedding Spotify here.
 - `public/_headers` sets security headers and immutable caching for hashed assets.
 - Any unknown path serves `index.html` (`not_found_handling`), since there is
   only one page.
